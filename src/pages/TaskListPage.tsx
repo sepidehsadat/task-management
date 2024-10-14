@@ -1,7 +1,9 @@
 import React, { useState, useMemo, useContext } from 'react'
-import { Table, Tag, Select, Input } from 'antd';
+import { Table, Tag, Select, Input ,Button } from 'antd';
 import { TaskRow } from '../rows/TaskRow';
 import { TaskContext } from '../TaskContext';
+import { Link } from 'react-router-dom';
+import { TMRoutes } from '../TMRoutes';
 
 const { Option } = Select;
 
@@ -83,6 +85,11 @@ export default function TaskListPage()
 				onChange={handleSearchChange}
 				style={{ width: 300, marginBottom: 20 }}
 			/>
+			<Link to={TMRoutes.TaskAdd}>
+				<Button type="primary" size="large" style={{ width: '100%' }}>
+					Add New Task
+				</Button>
+			</Link>
 			<Table columns={columns} dataSource={filteredTasks} />
 		</>
 	)

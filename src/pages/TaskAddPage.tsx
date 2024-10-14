@@ -4,7 +4,7 @@ import { Form, Input, Button, Select, Checkbox } from 'antd';
 import { TaskContext } from '../TaskContext';
 import { v4 as uuidv4 } from 'uuid'; 
 import { Link } from 'react-router-dom';
-
+import { TMRoutes } from '../TMRoutes';
 const { Option } = Select;
 
 export default function TaskAddPage()
@@ -49,8 +49,12 @@ export default function TaskAddPage()
 				</Form.Item>
 				<Form.Item>
 					<Button type="primary" htmlType="submit">Add Task</Button>
-					<Link to="/" style={{ marginLeft: '10px' }}>View Tasks</Link>
 				</Form.Item>
+				<Link to={TMRoutes.TaskList}>
+					<Button type="primary" size="large" style={{ width: '100%' }}>
+						View Tast List Page
+					</Button>
+				</Link>
 			</Form>
 		</div>
 	);
