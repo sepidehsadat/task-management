@@ -9,20 +9,37 @@ export default function TaskListPage()
 	const [tasks, setTasks] = useState<TaskRow[]>([
 		{ title: 'test1', description: 'test1', priority: "Low", isCompleted: true },
 		{ title: 'test2', description: 'test2', priority: "Low", isCompleted: false },
+		{ title: 'test3', description: 'test3', priority: "Medium", isCompleted: false },
 	]);
 
 	const [filterStatus, setFilterStatus] = useState<'all' | 'completed'>('all');
+	const [filterPriority, setFilterPriority] = useState<'all' | 'Low' | 'Medium' | 'High'>('all');
 
 	const handleStatusFilterChange = (value: 'all' | 'completed') =>
 	{
 		setFilterStatus(value);
 	};
-
-	const filteredStatusTasks = useMemo(() =>
+	const handlePriorityFilterChange = (value: 'all' | 'Low' | 'Medium' | 'High') =>
 	{
-		if (filterStatus === 'all') return tasks;
-		return tasks.filter(task => task.isCompleted === true);
-	}, [tasks, filterStatus]);
+		setFilterPriority(value);
+	};
+
+	const filteredTasks = useMemo(() =>
+	{
+		let filtered = tasks;
+
+		if (filterStatus === 'completed')
+		{
+			filtered = filtered.filter(task => task.isCompleted);
+		}
+
+		if (filterPriority !== 'all')
+		{
+			filtered = filtered.filter(task => task.priority === filterPriority);
+		}
+
+		return filtered;
+	}, [tasks, filterStatus, filterPriority]);
 
 
 	const columns = [
@@ -43,16 +60,16 @@ export default function TaskListPage()
 	return (
 		<>
 			<Select defaultValue="all" style={{ width: 200, marginBottom: 20 }} onChange={handleStatusFilterChange}>
-				<Option value="all">All</Option>
+				<Option value="all">All Status</Option>
 				<Option value="completed">Show Completed Tasks</Option>
 			</Select>
-			<Select defaultValue="all" style={{ width: 200, marginBottom: 20 }} onChange={()=>{}}>
+			<Select defaultValue="all" style={{ width: 200, marginBottom: 20 }} onChange={handlePriorityFilterChange}>
 				<Option value="all">All Priorities</Option>
 				<Option value="Low">Low Priority</Option>
 				<Option value="Medium">Medium Priority</Option>
 				<Option value="High">High Priority</Option>
 			</Select>
-			<Table columns={columns} dataSource={filteredStatusTasks}  />
+			<Table columns={columns} dataSource={filteredTasks}  />
 		</>
 	)
 }
