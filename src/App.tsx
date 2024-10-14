@@ -5,7 +5,7 @@ import TMRouter from './TMRouter';
 function App()
 {
 	return (
-		<div className="App">
+		<div className="App p-4">
 			<TMRouter />
 		</div>
 	);
