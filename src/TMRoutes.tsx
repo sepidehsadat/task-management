@@ -1,5 +1,5 @@
 export enum TMRoutes
 {
-	TaskList = '/task_list',
-	TaskAdd = '/',
+	TaskList = '/',
+	TaskAdd = '/task_add',
 }
