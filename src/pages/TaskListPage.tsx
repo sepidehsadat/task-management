@@ -1,17 +1,13 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useContext } from 'react'
 import { Table, Tag, Select, Input } from 'antd';
 import { TaskRow } from '../rows/TaskRow';
+import { TaskContext } from '../TaskContext';
 
 const { Option } = Select;
 
 export default function TaskListPage()
 {
-	const [tasks, setTasks] = useState<TaskRow[]>([
-		{ title: 'test1', description: 'test1', priority: "Low", isCompleted: true },
-		{ title: 'test2', description: 'test2', priority: "Low", isCompleted: false },
-		{ title: 'test3', description: 'test3', priority: "Medium", isCompleted: false },
-	]);
-
+	const { tasks } = useContext(TaskContext)!;
 	const [filterStatus, setFilterStatus] = useState<'all' | 'completed'>('all');
 	const [filterPriority, setFilterPriority] = useState<'all' | 'Low' | 'Medium' | 'High'>('all');
 	const [searchTitle, setSearchTitle] = useState('');

@@ -1,27 +1,36 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { TaskRow } from "../rows/TaskRow";
 import { Form, Input, Button, Select, Checkbox } from 'antd';
+import { TaskContext } from '../TaskContext';
+import { v4 as uuidv4 } from 'uuid'; 
+import { Link } from 'react-router-dom';
+
 const { Option } = Select;
 
 export default function TaskAddPage()
 {
-	const [task, setTask] = useState<TaskRow | null>(null);
+	const { addTask } = useContext(TaskContext)!;
 
-	const addTask = (values: TaskRow) =>
+	const addTaskHandler = (values: TaskRow) =>
 	{
-		setTask(values);
+		const { key, ...restValues } = values; 
+		const newTask: TaskRow = {
+			key: uuidv4(), 
+			...restValues,
+		};
+		addTask(newTask);
 		alert(`
-      Task Title: ${values.title}
-      Task Description: ${values.description || 'No description'}
-      Task Priority: ${values.priority}
-      Task Completed: ${values.isCompleted ? 'Yes' : 'No'}
-    `);
-		
+            Task Title: ${values.title}
+            Task Description: ${values.description || 'No description'}
+            Task Priority: ${values.priority}
+            Task Completed: ${values.isCompleted ? 'Yes' : 'No'}
+        `);
 	};
+
 	return (
 		<div className='container'>
 			<h3 className='mb-3'>Add Task</h3>
-			<Form onFinish={addTask}>
+			<Form onFinish={addTaskHandler}>
 				<Form.Item name="title" rules={[{ required: true, message: 'Please input the title' }]}>
 					<Input placeholder="Title" />
 				</Form.Item>
@@ -40,8 +49,9 @@ export default function TaskAddPage()
 				</Form.Item>
 				<Form.Item>
 					<Button type="primary" htmlType="submit">Add Task</Button>
+					<Link to="/" style={{ marginLeft: '10px' }}>View Tasks</Link>
 				</Form.Item>
 			</Form>
 		</div>
-	)
+	);
 }
