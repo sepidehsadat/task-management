@@ -1,5 +1,5 @@
-import React, { useState ,useMemo } from 'react'
-import { Table, Tag, Select } from 'antd';
+import React, { useState, useMemo } from 'react'
+import { Table, Tag, Select, Input } from 'antd';
 import { TaskRow } from '../rows/TaskRow';
 
 const { Option } = Select;
@@ -14,6 +14,7 @@ export default function TaskListPage()
 
 	const [filterStatus, setFilterStatus] = useState<'all' | 'completed'>('all');
 	const [filterPriority, setFilterPriority] = useState<'all' | 'Low' | 'Medium' | 'High'>('all');
+	const [searchTitle, setSearchTitle] = useState('');
 
 	const handleStatusFilterChange = (value: 'all' | 'completed') =>
 	{
@@ -22,6 +23,10 @@ export default function TaskListPage()
 	const handlePriorityFilterChange = (value: 'all' | 'Low' | 'Medium' | 'High') =>
 	{
 		setFilterPriority(value);
+	};
+	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+	{
+		setSearchTitle(e.target.value);
 	};
 
 	const filteredTasks = useMemo(() =>
@@ -38,8 +43,15 @@ export default function TaskListPage()
 			filtered = filtered.filter(task => task.priority === filterPriority);
 		}
 
+		if (searchTitle)
+		{
+			filtered = filtered.filter(task =>
+				task.title.toLowerCase().includes(searchTitle.toLowerCase())
+			);
+		}
+
 		return filtered;
-	}, [tasks, filterStatus, filterPriority]);
+	}, [tasks, filterStatus, filterPriority, searchTitle]);
 
 
 	const columns = [
@@ -69,7 +81,13 @@ export default function TaskListPage()
 				<Option value="Medium">Medium Priority</Option>
 				<Option value="High">High Priority</Option>
 			</Select>
-			<Table columns={columns} dataSource={filteredTasks}  />
+			<Input
+				placeholder="Search by title"
+				value={searchTitle}
+				onChange={handleSearchChange}
+				style={{ width: 300, marginBottom: 20 }}
+			/>
+			<Table columns={columns} dataSource={filteredTasks} />
 		</>
 	)
 }
