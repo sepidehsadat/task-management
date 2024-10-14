@@ -1,5 +1,9 @@
 This is a Task Management Application built with React and TypeScript. It allows users to add, view, and filter tasks based on their completion status, priority, and title.
 The application uses Context API for state management and stores task data in localStorage for persistence.
+
+Install the dependencies:
+  npm i
+  
 /task-management-app
 │
 ├── /src
