@@ -39,7 +39,8 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 	const addTask = (task: TaskRow) =>
 	{
 		const updatedTasks = [...tasks, task];
-		setTasks(updatedTasks);
+		setTasks(updatedTasks); 
+		localStorage.setItem('tasks', JSON.stringify(updatedTasks)); 
 	};
 
 	return (

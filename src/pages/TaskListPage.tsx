@@ -9,7 +9,11 @@ const { Option } = Select;
 
 export default function TaskListPage()
 {
-	const { tasks } = useContext(TaskContext)!;
+	const [tasks, setTasks] = useState<TaskRow[]>(() =>
+	{
+		const Tasks = localStorage.getItem('tasks');
+		return Tasks ? JSON.parse(Tasks) : [];
+	});
 	const [filterStatus, setFilterStatus] = useState<'all' | 'completed'>('all');
 	const [filterPriority, setFilterPriority] = useState<'all' | 'Low' | 'Medium' | 'High'>('all');
 	const [searchTitle, setSearchTitle] = useState('');
